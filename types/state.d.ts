@@ -1,0 +1,1 @@
+type TabMenuType = 'total' | 'bookmark';

@@ -1,17 +1,13 @@
 import type { NextPage } from 'next'
-import styled from 'styled-components'
+import { useState } from 'react';
 
 const Home: NextPage = () => {
+  const [tab, setTab] = useState<TabMenuType>('total');
   return (
-    <ScHome>
+    <div className="">
       hihi
-    </ScHome>
+    </div>
   )
 }
-
-const ScHome = styled.div`
-  min-height: 100vh;
-  border: 1px solid red;
-`;
 
 export default Home
