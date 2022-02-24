@@ -17,7 +17,7 @@ const TabMenu: React.FC<Props> = ({ tab, setTab }) => {
     <div className='flex'>
       {TAB_LIST.map(t => (
         <div key={t} onClick={() => setTab(t)}
-          className={`w-full py-2 rounded text-center font-bold cursor-pointer hover:opacity-70 ${t !== tab ? 'text-gray-400 bg-gray-200' : 'text-black'}`} >
+          className={`w-full py-2 rounded text-center font-bold cursor-pointer hover:opacity-70 ${t !== tab ? 'text-gray-400 bg-gray-200' : 'text-black shadow-md'}`} >
           {tabName[t]}
         </div>
       ))}

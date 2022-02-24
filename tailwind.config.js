@@ -26,6 +26,8 @@ module.exports = {
           },
         }
       })
-    }
+    },
+    require('tailwindcss-percentage-width'),
+    require('tailwindcss-children')
   ],
 }
