@@ -8,7 +8,6 @@ type Props = {
 const TableFilter: React.FC<Props> = ({ tab, setTab }) => {
   return (
     <div className="flex justify-end items-center h-16">
-      <button onClick={() => setTab('bookmark')}>hihi</button>
       {tab === 'total' ? '필터' : ''}
     </div>
   )
