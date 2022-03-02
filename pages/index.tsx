@@ -23,9 +23,7 @@ const Home: NextPage<Props> = ({ initList }) => {
   const [page, setPage] = useState<number>(2);
   const [perPage, setPerPage] = useState<number>(10);
 
-  console.log(coinList);
-
-  const updateCoinList = async (newPage: number, newPerPage: number): void => {
+  const updateCoinList = async (newPage: number, newPerPage: number) => {
     if (newPage !== page) setPage(newPage);
     if (newPerPage !== perPage) setPerPage(newPerPage);
     const newList = await getCoinMarkets(page, perPage);
