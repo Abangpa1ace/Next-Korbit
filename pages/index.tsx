@@ -1,47 +1,62 @@
 import axios from 'axios';
+import { useAtomValue } from 'jotai';
 import type { NextPage } from 'next'
 import { useEffect, useState } from 'react';
 import Table from '../components/home/Table';
+import TableSelect from '../components/home/TableSelect';
 import TabMenu from '../components/home/TabMenu';
+import { likedCoinsAtom } from '../jotai';
 import { getCoinMarkets } from '../services';
 
-type Props = {
-  initList: CoinType[];
+interface Props {
+  initPage: number;
+  initList: CoinList;
 }
 
 export const getStaticProps = async () => {
-  const initList = await getCoinMarkets(1);
+  const initPage = 1;
+  const initList = await getCoinMarkets(initPage);
   
   return {
-    props: { initList }
+    props: { initPage, initList }
   }
 }
 
-const Home: NextPage<Props> = ({ initList }) => {
-  const [tab, setTab] = useState<TabMenuType>('total');
+const Home: NextPage<Props> = ({ initPage, initList }) => {
   const [coinList, setCoinList] = useState<CoinType[]>(initList);
-  const [page, setPage] = useState<number>(2);
-  const [perPage, setPerPage] = useState<number>(10);
-
-  const updateCoinList = async (newPage: number, newPerPage: number) => {
-    if (newPage !== page) setPage(newPage);
-    if (newPerPage !== perPage) setPerPage(newPerPage);
-    const newList = await getCoinMarkets(page, perPage);
-    setCoinList(page === 1 ? newList : [...coinList, ...newList])
-  }
+  const likedCoinList = useAtomValue(likedCoinsAtom);
+  const [tab, setTab] = useState<TabMenuType>('total');
+  const [unit, setUnit] = useState<UnitType>('krw');
+  const [page, setPage] = useState<number>(initPage);
+  const [perPage, setPerPage] = useState<number>(50);
 
   useEffect(() => {
-    if (tab === 'total') return;
     (async () => {
-      const newList = await getCoinMarkets(3);
-      setCoinList(newList);
-    })()
-  }, [tab])
+      const newList = await getCoinMarkets(page, perPage, unit);
+      await setCoinList(page === 1 ? newList : [...coinList, ...newList]);
+    })();
+  }, [page, perPage, unit])
+
+  const resetPage = () => setPage(1);
+
+  const changeUnit = (unit: UnitType): void => {
+    resetPage();
+    setUnit(unit);
+  }
+
+  const changePerPage = (perPage: number): void => {
+    resetPage();
+    setPerPage(perPage)
+  }
 
   return (
     <div>
       <TabMenu tab={tab} setTab={setTab} />
-      <Table tab={tab} setTab={setTab} coinList={coinList} page={page} perPage={perPage} updateCoinList={updateCoinList} />
+      <TableSelect tab={tab} unit={unit} perPage={perPage} setTab={setTab} setUnit={changeUnit} setPerPage={changePerPage}  />
+      {tab === 'total'
+        ? <Table coinList={coinList} page={page} perPage={perPage} unit={unit} setPage={(page) => setPage(page)} />
+        : <Table coinList={likedCoinList.slice(0, page*10)} page={page} setPage={(page) => setPage(page)} noMore={page*10 >= likedCoinList.length} />
+      }
     </div>
   )
 }

@@ -29,3 +29,5 @@ interface CoinType {
   total_supply: number;
   total_volume: number;
 }
+
+type CoinList = CoinType[];

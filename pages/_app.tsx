@@ -1,11 +1,14 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
+import { Provider } from 'jotai';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <div className="container">
-      <Component {...pageProps}/>
-    </div>
+    <Provider>
+      <div className='container'>
+        <Component {...pageProps}/>
+      </div>
+    </Provider>
     
   )
 }

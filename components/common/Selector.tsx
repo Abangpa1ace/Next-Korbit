@@ -1,15 +1,19 @@
 import React from 'react'
 
-type Props = {
+interface Props {
+  list: SelectList;
+  selectValue: number | string;
+  onSelect: (e: React.ChangeEvent<HTMLSelectElement>) => void; 
+  name?: string;
   className?: string;
 }
 
-const Selector: React.FC<Props> = ({ className }) => {
+const Selector: React.FC<Props> = ({ name, list, selectValue, onSelect, className }) => {
   return (
-    <select className={className}>
-      <option>첫번째</option>
-      <option>두번째</option>
-      <option>세번째</option>
+    <select name={name} className={className} value={selectValue} onChange={onSelect}>
+      {list.map(({ label, value }, idx) => 
+        <option key={`${idx+1}-option-${value}`} value={value}>{label}</option>
+      )}
     </select>
   )
 }

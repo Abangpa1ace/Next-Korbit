@@ -1,5 +1,13 @@
-export const toCurrency = (num: number, unit = 'krw'): string => {
-  return `${unit === 'krw' ? '₩' : '$'} ${num?.toLocaleString()}`; 
+type CurrencyType = {
+  [k in UnitType]: string
+}
+
+export const toCurrency = (num: number, unit: keyof CurrencyType): string => {
+  const unitChar: CurrencyType = {
+    krw: '₩',
+    usd: '$',
+  }
+  return `${unitChar[unit] || ''} ${num?.toLocaleString()}`; 
 }
 
 export const toRound = (num: number, round = 0): string => {

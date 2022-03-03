@@ -1,7 +1,7 @@
 import React from 'react'
-import { TAB_LIST } from '../../constants'
+import { TAB_LIST } from '../../constants/list'
 
-type Props = {
+interface Props {
   tab: TabMenuType;
   setTab: (tab: TabMenuType) => void;
 }

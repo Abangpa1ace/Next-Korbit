@@ -1,12 +1,17 @@
+import Link from 'next/link';
 import React from 'react'
+import useLikeStar from '../../../hooks/useLikeStar';
 import { toCurrency, toRound } from '../../../utils'
 import StarLikeButton from '../../common/StarLikeButton';
 
-type Props = {
+interface Props {
   coin: CoinType;
+  unit: UnitType;
 }
 
-const TableItem: React.FC<Props> = ({ coin }) => {
+const TableItem: React.FC<Props> = ({ coin, unit }) => {
+  const { isLiked, toggleIsLiked } = useLikeStar(coin);
+
   const { name, symbol, current_price, total_volume,
     price_change_percentage_1h_in_currency,
     price_change_percentage_7d_in_currency,
@@ -20,32 +25,34 @@ const TableItem: React.FC<Props> = ({ coin }) => {
   }
 
   return (
-    <ul className="flex justify-between gap-10px py-4 border-b border-b-gray-200 border-solid text-sm cursor-pointer hover:bg-gray-50" >
-      <li className="w-5%">
-        <StarLikeButton />
-      </li>
-      <li className="w-10%">
-        {name}
-      </li>
-      <li className="w-10%">
-        {symbol?.toUpperCase()}
-      </li>
-      <li className="w-15% text-right">
-        {toCurrency(current_price)}
-      </li>
-      <li className={`w-15% text-right ${percentColor(percentList[0])}`}>
-        {percentList[0]}%
-      </li>
-      <li className={`w-10% text-right ${percentColor(percentList[1])}`}>
-        {percentList[1]}%
-      </li>
-      <li className={`w-10% text-right ${percentColor(percentList[2])}`}>
-        {percentList[2]}%
-      </li>
-      <li className="w-20% text-right">
-        {toCurrency(total_volume)}
-      </li>
-    </ul>
+    <Link href={`/detail/${coin.id}`}>
+      <ul className="flex justify-between gap-10px py-4 border-b border-b-gray-200 border-solid text-sm cursor-pointer hover:bg-gray-50" >
+        <li className="w-5%">
+          <StarLikeButton isLiked={isLiked} onClick={toggleIsLiked} />
+        </li>
+        <li className="w-10%">
+          {name}
+        </li>
+        <li className="w-10%">
+          {symbol?.toUpperCase()}
+        </li>
+        <li className="w-15% text-right">
+          {toCurrency(current_price, unit)}
+        </li>
+        <li className={`w-15% text-right ${percentColor(percentList[0])}`}>
+          {percentList[0]}%
+        </li>
+        <li className={`w-10% text-right ${percentColor(percentList[1])}`}>
+          {percentList[1]}%
+        </li>
+        <li className={`w-10% text-right ${percentColor(percentList[2])}`}>
+          {percentList[2]}%
+        </li>
+        <li className="w-20% text-right">
+          {toCurrency(total_volume, unit)}
+        </li>
+      </ul>
+    </Link>
   )
 }
 

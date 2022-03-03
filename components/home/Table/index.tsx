@@ -1,24 +1,23 @@
 import React, { useState } from 'react'
-import TableFilter from './TableFilter'
+import TableSelect from '../TableSelect'
 import TableHeader from './TableHeader'
 import TableItem from './TableItem'
 
-type Props = {
+interface Props {
   coinList: CoinType[];
-  tab: TabMenuType;
   page: number;
-  perPage: number;
-  setTab: (tab: TabMenuType) => void;
-  updateCoinList: (page: number, perPage: number) => void;
+  perPage?: number;
+  unit?: UnitType;
+  setPage: (page: number) => void;
+  noMore?: boolean;
 }
 
-const Table: React.FC<Props> = ({ coinList, tab, page, perPage, setTab, updateCoinList }) => {
+const Table: React.FC<Props> = ({ coinList, page, unit, setPage, noMore }) => {
   return (
     <div className="children:pl-2 children:pr-10">
-      <TableFilter tab={tab} setTab={setTab} />
       <TableHeader />
-      {coinList.map(coin => <TableItem key={coin.id} coin={coin} />)}
-      <button className="w-full py-4 border-b border-b-gray-200 border-solid text-center" onClick={() => updateCoinList(page+1, perPage)}>+ 더보기</button>
+      {coinList.length ? coinList.map(coin => <TableItem key={coin.id} coin={coin} unit={unit} />) : <div className="border-b border-b-gray-200 border-solid text-center py-10">해당하는 코인이 없습니다!</div>}
+      {!noMore && <button className="w-full py-4 border-b border-b-gray-200 border-solid text-center" onClick={() => setPage(page+1)}>+ 더보기</button>}
     </div>
   )
 }
