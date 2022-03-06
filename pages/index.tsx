@@ -30,6 +30,8 @@ const Home: NextPage<Props> = ({ initPage, initList }) => {
   const [page, setPage] = useState<number>(initPage);
   const [perPage, setPerPage] = useState<number>(50);
 
+  const bookmarkList = likedCoinList.length ? likedCoinList.slice(0, page*10) : []
+
   useEffect(() => {
     (async () => {
       const newList = await getCoinMarkets(page, perPage, unit);
@@ -55,7 +57,7 @@ const Home: NextPage<Props> = ({ initPage, initList }) => {
       <TableSelect tab={tab} unit={unit} perPage={perPage} setTab={setTab} setUnit={changeUnit} setPerPage={changePerPage}  />
       {tab === 'total'
         ? <Table coinList={coinList} page={page} perPage={perPage} unit={unit} setPage={(page) => setPage(page)} />
-        : <Table coinList={likedCoinList.slice(0, page*10)} page={page} setPage={(page) => setPage(page)} noMore={page*10 >= likedCoinList.length} />
+        : <Table coinList={bookmarkList} page={page} setPage={(page) => setPage(page)} noMore={page*10 >= likedCoinList.length} />
       }
     </div>
   )

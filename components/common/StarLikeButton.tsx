@@ -16,7 +16,8 @@ const StarLikeButton: React.FC<Props> = ({ isLiked, onClick }) => {
     setIsTooltip(true);
   }
 
-  const toggleLike = () => {
+  const toggleLike = (e) => {
+    e.stopPropagation();
     onClick();
     onTooltip();
   }
