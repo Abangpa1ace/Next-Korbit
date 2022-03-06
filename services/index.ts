@@ -15,3 +15,5 @@ export const getCoinMarkets = async (page: number, per_page = 50, vs_currency = 
   const params = { page, per_page, vs_currency, price_change_percentage: '1h,24h,7d' }
   return await api.get('/markets', { params })
 }
+
+export const getCoinDetail = async (id: string) => await api.get(`/${id}`)

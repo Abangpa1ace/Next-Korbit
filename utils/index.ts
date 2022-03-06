@@ -10,6 +10,11 @@ export const toCurrency = (num: number, unit: keyof CurrencyType): string => {
   return `${unitChar[unit] || ''} ${num?.toLocaleString()}`; 
 }
 
+export const sortBy = (arr: any[], key: string, isAsc = true) => {
+  const newArr = arr.sort((a,b) => a[key] < b[key] ? -1 : 1);
+  return isAsc ? newArr : newArr.reverse();
+}
+
 export const toRound = (num: number, round = 0): string => {
   const dec = Math.pow(10, round);
   return `${(Math.round(num * dec) / dec)}`

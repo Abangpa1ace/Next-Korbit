@@ -7,6 +7,7 @@ import TableSelect from '../components/home/TableSelect';
 import TabMenu from '../components/home/TabMenu';
 import { likedCoinsAtom } from '../jotai';
 import { getCoinMarkets } from '../services';
+import { sortBy } from '../utils';
 
 interface Props {
   initPage: number;
@@ -15,10 +16,10 @@ interface Props {
 
 export const getStaticProps = async () => {
   const initPage = 1;
-  const initList = await getCoinMarkets(initPage);
+  const list = await getCoinMarkets(initPage);
   
   return {
-    props: { initPage, initList }
+    props: { initPage, initList: sortBy(list, 'market_cap_rank') }
   }
 }
 
@@ -34,7 +35,8 @@ const Home: NextPage<Props> = ({ initPage, initList }) => {
 
   useEffect(() => {
     (async () => {
-      const newList = await getCoinMarkets(page, perPage, unit);
+      let newList = await getCoinMarkets(page, perPage, unit);
+      newList = sortBy(newList, 'market_cap_rank');
       await setCoinList(page === 1 ? newList : [...coinList, ...newList]);
     })();
   }, [page, perPage, unit])
