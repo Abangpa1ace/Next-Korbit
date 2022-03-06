@@ -1,7 +1,7 @@
-import axios from 'axios';
-import { useAtomValue } from 'jotai';
 import type { NextPage } from 'next'
+import { GetServerSideProps } from 'next';
 import { useEffect, useState } from 'react';
+import { useAtomValue } from 'jotai/utils';
 import Table from '../components/home/Table';
 import TableSelect from '../components/home/TableSelect';
 import TabMenu from '../components/home/TabMenu';
@@ -14,7 +14,7 @@ interface Props {
   initList: CoinList;
 }
 
-export const getStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
   const initPage = 1;
   const list = await getCoinMarkets(initPage);
   
@@ -31,7 +31,7 @@ const Home: NextPage<Props> = ({ initPage, initList }) => {
   const [page, setPage] = useState<number>(initPage);
   const [perPage, setPerPage] = useState<number>(50);
 
-  const bookmarkList = likedCoinList.length ? likedCoinList.slice(0, page*10) : []
+  const bookmarkList = likedCoinList?.length ? likedCoinList?.slice(0, page*10) : []
 
   useEffect(() => {
     (async () => {

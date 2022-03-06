@@ -26,7 +26,7 @@ const TableItem: React.FC<Props> = ({ coin, unit }) => {
 
   return (
     <Link href={`/detail/${coin.id}`}>
-      <ul className="flex justify-between gap-10px py-4 border-b border-b-gray-200 border-solid text-sm cursor-pointer hover:bg-gray-50" >
+      <ul className="flex justify-between gap-10px py-4 border-b border-b-gray-200 border-solid text-14 cursor-pointer hover:bg-gray-50" >
         <li className="w-5%">
           <StarLikeButton isLiked={isLiked} onClick={toggleIsLiked} />
         </li>

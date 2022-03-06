@@ -8,7 +8,14 @@ module.exports = {
       'md': {'max': '768px'},
       'sm': {'max': '500px'}
     },
-    extend: {},
+    extend: {
+      fontSize: {
+        '12': ['12px', { lineHeight: '1.5' }],
+        '14': ['14px', { lineHeight: '1.5' }],
+        '18': ['18px', { lineHeight: '1' }],
+        '20': ['20px', { lineHeight: '1' }],
+      }
+    },
   },
   corePlugins: {
     container: false

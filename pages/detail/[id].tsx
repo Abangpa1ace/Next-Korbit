@@ -1,14 +1,15 @@
-import React, { useRef } from 'react'
-import { useAtomValue } from 'jotai';
-import { likedCoinsAtom } from '../../jotai';
-import { useRouter } from 'next/router'
+import React, { useEffect, useRef, useState } from 'react'
+import Img from 'next/image';
 import useLikeStar from '../../hooks/useLikeStar';
 import StarLikeButton from '../../components/common/StarLikeButton';
 import { NextPage, GetServerSideProps } from 'next';
 import { getCoinDetail } from '../../services';
-
+import DetailHeader from '../../components/detail/DetailHeader';
+import DetailInfo from '../../components/detail/DetailInfo';
+import DetailExchange from '../../components/detail/DetailExchange';
+import DetailDesc from '../../components/detail/DetailDesc';
 interface Props {
-  coinData: CoinType;
+  coinData: CoinDetail;
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
@@ -21,16 +22,14 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 }
 
 const DetailPage: NextPage<Props> = ({ coinData }) => {
-  const likedCoinList = useAtomValue(likedCoinsAtom);
-  const { isLiked, toggleIsLiked } = useLikeStar(coinData);
+  const [unit, setUnit] = useState<UnitType>('krw');
   console.log(coinData);
-
   return (
     <div>
-      <div className='flex flex-wrap'>
-        <StarLikeButton isLiked={isLiked} toggleIsLiked={toggleIsLiked}/>
-        <img src={coinData.image.thumb} />
-      </div>
+      <DetailHeader coinData={coinData} />
+      <DetailInfo coinData={coinData} unit={unit} />
+      <DetailExchange coinData={coinData} unit={unit} />
+      <DetailDesc coinData={coinData} />
     </div>
   )
 }

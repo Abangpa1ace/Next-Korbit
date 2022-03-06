@@ -1,6 +1,10 @@
 import { atom } from 'jotai';
+import { atomWithStorage, createJSONStorage } from 'jotai/utils';
 
-export const likedCoinsAtom = atom<CoinList>([]);
+export const likedCoinsAtom = atomWithStorage<CoinList>('likedCoins', [], {
+  ...createJSONStorage(() => sessionStorage),
+  delayInit: true,
+});
 
 export const likedCoinIdsAtom = atom<string[]>((get) => {
   const coins = get(likedCoinsAtom);

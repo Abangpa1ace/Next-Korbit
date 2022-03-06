@@ -1,11 +1,16 @@
-import React, { useState } from 'react'
-import { useAtom, useAtomValue } from 'jotai'
+import React, { useEffect, useState } from 'react'
+import { useAtom } from 'jotai'
+import { useAtomValue } from 'jotai/utils'
 import { likedCoinIdsAtom, likedCoinsAtom } from '../jotai'
 
-const useLikeStar = (coin: CoinType) => {
-  const [likedCoins, setLikedCoins] = useAtom(likedCoinsAtom);
+const useLikeStar = (coin: CoinType | CoinDetail) => {
+  const [likedCoins, setLikedCoins] = useAtom<CoinList>(likedCoinsAtom);
   const likedCoinIds = useAtomValue(likedCoinIdsAtom);
-  const [isLiked, setIsLiked] = useState<boolean>(likedCoinIds.includes(coin.id));
+  const [isLiked, setIsLiked] = useState<boolean>(false);
+
+  useEffect(() => {
+    setIsLiked(likedCoinIds?.includes(coin.id));
+  }, [likedCoinIds])
 
   const toggleIsLiked = () => {
     const newList = isLiked ? likedCoins.filter(c => c.id !== coin.id) : [...likedCoins, coin];

@@ -2,7 +2,7 @@ import React from 'react'
 
 const TableHeader: React.FC = () => {
   return (
-    <ul className="flex justify-between gap-10px py-1 bg-gray-100 text-gray-400 text-sm rounded-sm" >
+    <ul className="flex justify-between gap-10px py-1 bg-gray-100 text-gray-400 text-12 rounded-sm" >
       <li className="w-5%"></li>
       <li className="w-10%">자산</li>
       <li className="w-10%"></li>
