@@ -9,24 +9,20 @@ interface Props {
 const DetailExchange: React.FC<Props> = ({ coinData, unit }) => {
   const { market_data: { current_price } } = coinData;
   const rate = current_price[unit];
-  const [prices, setPrices] = useState({ currency: 1, crypto: rate.toLocaleString() })
+  const [prices, setPrices] = useState({ currency: rate.toLocaleString(), crypto: 1 })
 
   const handleChange = (e) => {
-    const { target: { name, value }} = e;
+    let { target: { name, value }} = e;
     const isCurrency = name === 'currency';
-    const numValue = value.split(',').join('');
+    value = value.split(',').join('');
 
-    const regex = isCurrency ? /[^0-9]/g : /[^0-9.]/g;
-    if (regex.test(numValue)) return;
+    const regex = !isCurrency ? /\d/g : /^\d+\.?\d{0,8}$/g;
+    if (!regex.test(value)) return;
 
-    let newValue = numValue;
-    if (!isCurrency) {
-      const idx = numValue.indexOf('.');
-      if (idx === -1 || value.length-1) return;
-      newValue = toRound(numValue, 8).toLocaleString();
-    }
-
-    setPrices({ ...prices, [name]: Number(numValue).toLocaleString() })
+    setPrices({
+      currency: Math.floor(isCurrency ? value : value * rate).toLocaleString(),
+      crypto: (isCurrency ? value / rate : value).toLocaleString(),
+    })
   }
 
   return (

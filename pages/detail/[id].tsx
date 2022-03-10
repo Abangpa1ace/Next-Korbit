@@ -23,10 +23,10 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 
 const DetailPage: NextPage<Props> = ({ coinData }) => {
   const [unit, setUnit] = useState<UnitType>('krw');
-  console.log(coinData);
+
   return (
     <div>
-      <DetailHeader coinData={coinData} />
+      <DetailHeader coinData={coinData} unit={unit} setUnit={setUnit} />
       <DetailInfo coinData={coinData} unit={unit} />
       <DetailExchange coinData={coinData} unit={unit} />
       <DetailDesc coinData={coinData} />
